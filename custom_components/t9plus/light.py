@@ -22,7 +22,7 @@ class T9Plus(LightEntity):
         self._brightness = None
         self._state = None
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
-        _LOGGER.debug(f"Divoom IP address from configuration: {self._ip_address}")
+        # _LOGGER.debug(f"T9Plus from configuration: {self._ip_address}")
 
     @property
     def name(self) -> str:
