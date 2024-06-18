@@ -14,10 +14,10 @@ async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities)
     async_add_entities([ T9Plus(config_entry=config_entry) ], True)
 
 class T9Plus(LightEntity):
-    def __init__(self, port=None, baudrate=None, config_entry: ConfigEntry = None):
-        self._port = port
-        self._baudrate = baudrate
+    def __init__(self, config_entry: ConfigEntry = None):
         self._config_entry = config_entry
+        self._port = config_entry.data.get('port')
+        self._baudrate = config_entry.data.get('baudrate')
         self._attr_has_entity_name = True
         self._name = "Light"
         self.color_mode = ColorMode.BRIGHTNESS
