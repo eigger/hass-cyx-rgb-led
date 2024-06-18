@@ -14,7 +14,9 @@ async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities)
     async_add_entities([ T9Plus(config_entry=config_entry) ], True)
 
 class T9Plus(LightEntity):
-    def __init__(self, config_entry: ConfigEntry = None):
+    def __init__(self, port=None, baudrate=None, config_entry: ConfigEntry = None):
+        self._port = port
+        self._baudrate = baudrate
         self._config_entry = config_entry
         self._attr_has_entity_name = True
         self._name = "Light"
@@ -22,7 +24,7 @@ class T9Plus(LightEntity):
         self._brightness = None
         self._state = None
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
-        # _LOGGER.debug(f"T9Plus from configuration: {self._ip_address}")
+        _LOGGER.debug(f"T9Plus port from configuration: {self._port}")
 
     @property
     def name(self) -> str:
@@ -50,15 +52,11 @@ class T9Plus(LightEntity):
         elif self.effect == "Color Cycle": mode = 0x03
 
         self._state = True
-        port = self._config_entry.options['port']
-        baudrate = self._config_entry.options['baudrate']
-        led.control(port, baudrate, mode, brightness, 0x05)
+        led.control(self._port, self._baudrate, mode, brightness, 0x05)
 
     def turn_off(self, **kwargs):
         self._state = False
-        port = self._config_entry.options['port']
-        baudrate = self._config_entry.options['baudrate']
-        led.control(port, baudrate, 0x05, 0x05, 0x05)
+        led.control(self._port, self._baudrate, 0x05, 0x05, 0x05)
 
     def update(self) -> None:
         pass
