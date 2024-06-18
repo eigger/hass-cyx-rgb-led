@@ -50,11 +50,15 @@ class T9Plus(LightEntity):
         elif self.effect == "Color Cycle": mode = 0x03
 
         self._state = True
-        led.control("/dev/ttyUSB0", 9600, mode, brightness, 0x05)
+        port = self._config_entry.options['port']
+        baudrate = self._config_entry.options['baudrate']
+        led.control(port, baudrate, mode, brightness, 0x05)
 
     def turn_off(self, **kwargs):
         self._state = False
-        led.control("/dev/ttyUSB0", 9600, 0x05, 0x05, 0x05)
+        port = self._config_entry.options['port']
+        baudrate = self._config_entry.options['baudrate']
+        led.control(port, baudrate, 0x05, 0x05, 0x05)
 
     def update(self) -> None:
         pass
