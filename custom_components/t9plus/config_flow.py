@@ -15,8 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 class ConfigFlowHandler(config_entries.ConfigFlow, config_entries.OptionsFlow, domain=DOMAIN):
 
     def __init__(self, config_entry: ConfigEntry = None):
-        self.entry_options = config_entry.options if config_entry else {"port": "/dev/ttyS2", "baudrate": 9600,}                                                                      }
-
+        self.entry_options = config_entry.options if config_entry else {"port": "/dev/ttyS2", "baudrate": 9600}
     async def async_step_user(self, user_input: dict = None):
         # Called when the user creates a new entry. This will open a page with discovered new devices if there's any.
         if user_input:
