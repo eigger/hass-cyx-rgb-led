@@ -3,9 +3,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity import DeviceInfo
 
 from . import DOMAIN, VERSION
-
+from . import led
 import logging
-import led
+
 
 _LOGGER = logging.getLogger(__name__)
 BRIGHTNESS_SCALE = (1, 100)
