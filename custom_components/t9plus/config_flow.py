@@ -7,7 +7,6 @@ from homeassistant.helpers.selector import ObjectSelector, ObjectSelectorConfig,
 
 from .const import DOMAIN, VERSION
 import voluptuous as vol
-from . import load_pixoo
 
 import logging
 
