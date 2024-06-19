@@ -21,8 +21,8 @@ class T9Plus(LightEntity):
         self._attr_has_entity_name = True
         self._name = "Light"
         self.color_mode = ColorMode.BRIGHTNESS
-        self._brightness = None
-        self._state = None
+        self._brightness = 10
+        self._state = False
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
         _LOGGER.debug(f"T9Plus port from configuration: {self._port}")
 
