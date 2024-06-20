@@ -11,9 +11,9 @@ _LOGGER = logging.getLogger(__name__)
 BRIGHTNESS_SCALE = (1, 100)
 
 async def async_setup_entry(hass, config_entry: ConfigEntry, async_add_entities):
-    async_add_entities([ T9Plus(config_entry=config_entry) ], True)
+    async_add_entities([ CyxRgbLed(config_entry=config_entry) ], True)
 
-class T9Plus(LightEntity):
+class CyxRgbLed(LightEntity):
     def __init__(self, config_entry: ConfigEntry = None):
         self._config_entry = config_entry
         self._port = config_entry.data.get('port')
@@ -24,7 +24,7 @@ class T9Plus(LightEntity):
         self._brightness = 10
         self._state = False
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
-        _LOGGER.debug(f"T9Plus port from configuration: {self._port}")
+        _LOGGER.info(f"CYX RGB LED port from configuration: {self._port}, {self._baudrate}")
 
     @property
     def name(self) -> str:
@@ -77,10 +77,10 @@ class T9Plus(LightEntity):
     @property
     def device_info(self) -> DeviceInfo:
         return DeviceInfo(
-            identifiers={(DOMAIN, str(self._config_entry.entry_id)) if self._config_entry is not None else (DOMAIN, "t9plus")},
+            identifiers={(DOMAIN, str(self._config_entry.entry_id)) if self._config_entry is not None else (DOMAIN, "cyx_rgb_led")},
             name=self._config_entry.title,
-            manufacturer="MiniPC",
-            model="T9Plus",
+            manufacturer="CYX",
+            model="RGB LED",
             sw_version=VERSION,
         )
 

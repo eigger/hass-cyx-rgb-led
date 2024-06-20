@@ -29,13 +29,13 @@ class ConfigFlowHandler(config_entries.ConfigFlow, config_entries.OptionsFlow, d
             try:
                 if await self.verify_unique_device(user_input.get('port')):
                     # TODO: Add config verification
-                    return self.async_create_entry(title="T9Plus", data=user_input,
+                    return self.async_create_entry(title="CYX RGB LED", data=user_input,
                                                    options=user_input)  # it's required to set
                 # data anyways since otherwise the option flow won't save the data. (HA bug?) PS: DATA ISN'T USED HERE.
                 else:
                     errors["port"] = "already_configured"
             except Exception as e:
-                _LOGGER.error("Error setting up T9Plus: %s", e)
+                _LOGGER.error("Error setting up CYX RGB LED: %s", e)
                 errors["port"] = "connection"
         else:
             user_input = {} if user_input is None else user_input

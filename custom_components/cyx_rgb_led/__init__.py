@@ -8,7 +8,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, update=False):
-    """Set up T9plus from a config entry."""
+    """Set up CYX RGB LED from a config entry."""
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {}
 
