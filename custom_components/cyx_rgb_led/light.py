@@ -21,9 +21,10 @@ class CyxRgbLed(LightEntity):
         self._attr_has_entity_name = True
         self._name = "Light"
         self.color_mode = ColorMode.BRIGHTNESS
-        self._brightness = 10
-        self._state = False
+        self._brightness = 50
+        self._state = True
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
+        self.effect = "Rainbow"
         _LOGGER.info(f"CYX RGB LED port from configuration: {self._port}, {self._baudrate}")
 
     @property
@@ -52,11 +53,11 @@ class CyxRgbLed(LightEntity):
         elif self.effect == "Color Cycle": mode = 0x03
 
         self._state = True
-        led.control(self._port, self._baudrate, mode, brightness, 0x05)
+        led.control(self._port, self._baudrate, mode, brightness, 0x03)
 
     def turn_off(self, **kwargs):
         self._state = False
-        led.control(self._port, self._baudrate, 0x05, 0x05, 0x05)
+        led.control(self._port, self._baudrate, 0x05, 0x05, 0x03)
 
     def update(self) -> None:
         pass
