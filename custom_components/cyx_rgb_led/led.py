@@ -35,12 +35,12 @@ def control(port, baudrate, mode, brightness, speed, delay=0.005):
             checksum = calculate_checksum(data)
             packet = [0xfa] + data + [checksum]
             for byte in packet:
-                s.write(byte.to_bytes(1, 'big'))
+                s.write(byte)
                 time.sleep(delay)
-        print("Data sent successfully.")
+        print(f"Data sent successfully. {packet}")
     except serial.SerialException as e:
         print(f"Failed to send data: {e}")
         raise
 
 if __name__ == "__main__":
-    control("COM3", 9600, 0x04, 0x05, 0x05)
+    control("/dev/tty.URT1", 9600, 0x04, 0x05, 0x05)
