@@ -1,4 +1,4 @@
-from homeassistant.components.light import (LightEntity, ATTR_EFFECT, ATTR_BRIGHTNESS, SUPPORT_BRIGHTNESS, ColorMode, LightEntityFeature)
+from homeassistant.components.light import (LightEntity, ATTR_EFFECT, ATTR_BRIGHTNESS, ATTR_TRANSITION, SUPPORT_BRIGHTNESS, ColorMode, LightEntityFeature)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity import DeviceInfo
 
@@ -21,6 +21,7 @@ class CyxRgbLed(LightEntity):
         self._attr_has_entity_name = True
         self._name = "Light"
         self.color_mode = ColorMode.BRIGHTNESS
+        self._transition = 3
         self._brightness = 50
         self._state = True
         self.effect_list = ["Rainbow", "Breating", "Color Cycle", "Auto"]
@@ -45,15 +46,17 @@ class CyxRgbLed(LightEntity):
             self._brightness = kwargs[ATTR_BRIGHTNESS]
         if ATTR_EFFECT in kwargs:
             self.effect = kwargs[ATTR_EFFECT]
+        if ATTR_TRANSITION in kwargs:
+            self._transition = kwargs[ATTR_TRANSITION]
         brightness_percent = int((self._brightness / 255.0) * 100)
         brightness = int(0x05 - (brightness_percent * 0.04))
         mode = 0x05
         if self.effect == "Rainbow": mode = 0x01
         elif self.effect == "Breating": mode = 0x02
         elif self.effect == "Color Cycle": mode = 0x03
-
+        transition = max(1, min(self._transition, 5))
         self._state = True
-        led.control(self._port, self._baudrate, mode, brightness, 0x03)
+        led.control(self._port, self._baudrate, mode, brightness, transition)
 
     def turn_off(self, **kwargs):
         self._state = False
@@ -69,7 +72,7 @@ class CyxRgbLed(LightEntity):
     @property
     def supported_features(self) -> LightEntityFeature:
         """Flag supported features."""
-        return self._attr_supported_features | LightEntityFeature.EFFECT
+        return self._attr_supported_features | LightEntityFeature.EFFECT | LightEntityFeature.TRANSITION
     
     @property
     def unique_id(self):
